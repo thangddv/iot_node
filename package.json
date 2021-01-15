@@ -1,21 +1,28 @@
 {
-  "name": "express-boilerplate",
-  "version": "0.0.0",
+  "name": "iot_application",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "NODE_ENV=production node ./src/bin/www",
-    "dev": "NODE_ENV=development nodemon ./src/bin/www",
+    "start": "nodemon ./app.js",
     "test": "jest",
     "test:watch": "jest --watchAll",
     "lint": "eslint .",
     "lint:fix": "eslint --fix ."
   },
   "dependencies": {
+    "bcrypt": "^5.0.0",
+    "body-parser": "^1.19.0",
     "cookie-parser": "~1.4.3",
     "express": "~4.16.0",
+    "express-validator": "^6.9.2",
     "helmet": "^3.21.1",
     "http-errors": "~1.6.2",
-    "morgan": "~1.9.0"
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.11.11",
+    "morgan": "~1.9.0",
+    "mqtt": "^4.2.6",
+    "passport": "^0.4.1",
+    "passport-jwt": "^4.0.0"
   },
   "devDependencies": {
     "eslint": "^5.12.0",

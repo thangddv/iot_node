@@ -4,5 +4,6 @@
   "eslint.autoFixOnSave": true,
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
-  }
+  },
+  "printWidth": 120
 }
