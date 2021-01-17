@@ -12,18 +12,19 @@ const config = require('./config');
 const app = express();
 const { applyPassportStrategy } = require('./middleware/authenticate');
 const router = require('./routes/index');
+const mqttClient = require('./mqtt');
+const { receiveData } = require('./mqtt/subcribe');
 
 mongoose.connect(config.db.url, config.db.options);
 mongoose.connection.on('error', console.log);
 mongoose.Promise = global.Promise;
 
-const client = mqtt.connect(`mqtt://${config.mqtt.host}:${config.mqtt.port}`);
+mqttClient.connectMQTT();
+mqttClient.onSubcribe('/data', receiveData);
 
-client.on('connect', () => {
-  client.subscribe('/temperature');
-});
-
-module.exports = client;
+// client.on('connect', () => {
+//   client.subscribe('/temperature');
+// });
 
 // client.on('message', (topic, message) => {
 //   console.log(message.toString());

@@ -1,21 +1,25 @@
 const mqtt = require('mqtt');
+const config = require('../config');
 
-// const client = mqtt.connect(`mqtt://${config.mqtt.host}:${config.mqtt.port}`);
+const mqttClient = {};
 
-// client.on('connect', () => {
-//   client.subscribe('/temperature');
-//   client.subscribe('presence', (err) => {
-//     if (!err) {
-//       client.publish('presence', 'Hello mqtt');
-//     }
-//   });
-// });
+mqttClient.connectMQTT = () => {
+  mqttClient.client = mqtt.connect(`mqtt://${config.mqtt.host}:${config.mqtt.port}`);
+};
 
-function handle() {
-  const client = mqtt.Client();
-  client.on('message', (topic, message) => {
-    console.log(message.toString());
+mqttClient.onSubcribe = (topic, callback) => {
+  mqttClient.client.on('connect', () => {
+    mqttClient.client.subscribe(topic);
   });
-}
 
-module.exports = handle;
+  mqttClient.client.on('message', (_topic, message) => {
+    console.log(message.toString());
+    if (topic === _topic) callback(_topic, message);
+  });
+};
+
+mqttClient.onPublish = (topic, message) => {
+  mqttClient.client.publish(topic, message);
+};
+
+module.exports = mqttClient;

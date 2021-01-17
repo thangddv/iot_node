@@ -1,4 +1,5 @@
 const mogoose = require('mongoose');
+const { DEVICE_STATUS } = require('../utils/constant');
 
 const { Schema } = mogoose;
 
@@ -25,7 +26,7 @@ const DeviceSchema = new Schema({
   },
   status: {
     type: String,
-    enum: ['active', 'inactive'],
+    enum: [DEVICE_STATUS.ACTIVE, DEVICE_STATUS.INACTIVE, DEVICE_STATUS.RUNNING],
   },
 });
 
