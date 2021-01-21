@@ -4,7 +4,7 @@ const { Schema } = mogoose;
 
 const DataSchema = new Schema({
   deviceId: {
-    type: String,
+    type: Number,
     required: true,
   },
   mac: {
@@ -12,7 +12,7 @@ const DataSchema = new Schema({
     required: true,
   },
   timestamp: {
-    type: String,
+    type: Number,
   },
   data: {
     type: String,

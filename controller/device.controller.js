@@ -101,7 +101,11 @@ const getDataDevice = async (req, res) => {
 
     const date = new Date();
     date.setDate(date.getDate() - 1);
-    const data = await Data.find({ mac: device.mac, deviceId: device.deviceId, timestamp: { $gt: date.getTime() } });
+    const data = await Data.find({
+      mac: device.mac,
+      deviceId: device.deviceId,
+      timestamp: { $gt: date.getTime() },
+    });
     if (!data || data.length === 0) return res.status(422).json(error('Device does not have data', res.statusCode));
 
     return res.status(200).json(success({ device, result: data }));
@@ -116,16 +120,15 @@ const triggerActionDevice = async (req, res) => {
     return res.status(400).json(validation(errorsAfterValidation.mapped()));
   }
   try {
-    const { deviceId } = req.params.id;
+    const deviceId = req.params.id;
     const device = await Device.findById(deviceId);
     if (!device) return res.status(422).json(error('Device is not found', res.statusCode));
 
     if (device.status === DEVICE_STATUS.RUNNING) {
-      triggerDevice(device, DEVICE_STATUS.ACTIVE);
+      await triggerDevice(device, 'off');
     }
-
     if (device.status === DEVICE_STATUS.ACTIVE) {
-      triggerDevice(device, DEVICE_STATUS.RUNNING);
+      await triggerDevice(device, 'on');
     }
 
     return res.status(200).json(success(`Changed status device to ${device.status}`));

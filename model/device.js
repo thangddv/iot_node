@@ -12,7 +12,7 @@ const DeviceSchema = new Schema({
     type: String,
   },
   deviceId: {
-    type: String,
+    type: Number,
     required: true,
   },
   deviceName: {

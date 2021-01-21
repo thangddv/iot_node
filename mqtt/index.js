@@ -13,12 +13,13 @@ mqttClient.onSubcribe = (topic, callback) => {
   });
 
   mqttClient.client.on('message', (_topic, message) => {
-    console.log(message.toString());
+    console.log('Recv: ', _topic, message.toString());
     if (topic === _topic) callback(_topic, message);
   });
 };
 
 mqttClient.onPublish = (topic, message) => {
+  console.log('Sended: ', topic, message);
   mqttClient.client.publish(topic, message);
 };
 

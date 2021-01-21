@@ -16,7 +16,7 @@ module.exports = {
     expiry: '1d',
   },
   mqtt: {
-    host: '192.168.43.72',
+    host: '192.168.137.13',
     port: 1883,
   },
 };

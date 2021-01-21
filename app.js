@@ -1,7 +1,7 @@
 const passport = require('passport');
 const express = require('express');
 const mongoose = require('mongoose');
-const mqtt = require('mqtt');
+const cors = require('cors');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
@@ -22,16 +22,9 @@ mongoose.Promise = global.Promise;
 mqttClient.connectMQTT();
 mqttClient.onSubcribe('/data', receiveData);
 
-// client.on('connect', () => {
-//   client.subscribe('/temperature');
-// });
-
-// client.on('message', (topic, message) => {
-//   console.log(message.toString());
-// });
-
 // configure app to use library
 applyPassportStrategy(passport);
+app.use(cors());
 app.use(helmet());
 app.use(logger('dev'));
 app.use(express.json());
