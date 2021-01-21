@@ -37,7 +37,7 @@ const receiveData = (_topic, _payload) => {
     if (dev_8.data && (dev_8.data.H8 || dev_8.data.T8)) {
       results.push(dev_8);
     }
-    // Data.collection.insertMany(results);
+    Data.collection.insertMany(results);
   } catch (e) {
     console.log(e.message);
   }
