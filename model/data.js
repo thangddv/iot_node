@@ -15,7 +15,7 @@ const DataSchema = new Schema({
     type: Number,
   },
   data: {
-    type: String,
+    type: Object,
   },
 });
 
