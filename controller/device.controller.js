@@ -101,11 +101,22 @@ const getDataDevice = async (req, res) => {
 
     const date = new Date();
     date.setDate(date.getDate() - 1);
-    const data = await Data.find({
-      mac: device.mac,
-      deviceId: device.deviceId,
-      timestamp: { $gt: date.getTime() },
-    });
+    const data = await Data.aggregate([
+      {
+        $match: {
+          mac: device.mac,
+          deviceId: device.deviceId,
+          timestamp: { $gt: date.getTime() },
+        },
+      },
+      { $sort: { timestamp: 1 } },
+      {
+        $group: {
+          _id: { $hour: { $toDate: '$timestamp' } },
+          data: { $first: '$$ROOT.data' },
+        },
+      },
+    ]);
     if (!data || data.length === 0) return res.status(422).json(error('Device does not have data', res.statusCode));
 
     return res.status(200).json(success({ device, result: data }));
@@ -137,7 +148,38 @@ const triggerActionDevice = async (req, res) => {
   }
 };
 
-const fakeData = async (req, res) => {
+const getNewestDataDevice = async (req, res) => {
+  const errorsAfterValidation = validationResult(req);
+  if (!errorsAfterValidation.isEmpty()) {
+    return res.status(400).json(validation(errorsAfterValidation.mapped()));
+  }
+  try {
+    const deviceId = req.params.id;
+    const device = await Device.findById(deviceId);
+    if (!device) return res.status(422).json(error('Device is not found', res.statusCode));
+
+    const date = new Date();
+    const data = await Data.find({
+      mac: device.mac,
+      deviceId: device.deviceId,
+      timestamp: { $gt: date.getTime() - 30000 },
+    }).sort({ timestamp: 'desc' });
+    if (!data || data.length === 0) return res.status(422).json(error('Device is not having data now', res.statusCode));
+    return res.status(200).json(
+      success({
+        deviceName: device.deviceName,
+        mac: data[0].mac,
+        deviceId: data[0].deviceId,
+        timestamp: data[0].timestamp,
+        data: data[0].data,
+      })
+    );
+  } catch (e) {
+    return res.status(500).json(error(e.message));
+  }
+};
+
+const fakeData1 = async (req, res) => {
   const errorsAfterValidation = validationResult(req);
   if (!errorsAfterValidation.isEmpty()) {
     return res.status(400).json(validation(errorsAfterValidation.mapped()));
@@ -159,11 +201,39 @@ const fakeData = async (req, res) => {
   }
 };
 
+const fakeData = async (req, res) => {
+  const errorsAfterValidation = validationResult(req);
+  if (!errorsAfterValidation.isEmpty()) {
+    return res.status(400).json(validation(errorsAfterValidation.mapped()));
+  }
+  try {
+    const device = await Device.findById('6001fc8d613d5f86ea9d4090');
+    const data = [];
+    for (let i = 1; i <= 24; i += 1) {
+      const examp = {
+        mac: device.mac,
+        deviceId: device.deviceId,
+        timestamp: new Date().getTime() + i * 60 * 60 * 1000,
+        data: {
+          H5: `${Math.floor(Math.random() * 30) + 50}`,
+          T5: `${Math.floor(Math.random() * 10) + 15}`,
+        },
+      };
+      data.push(examp);
+    }
+    await Data.insertMany(data);
+    return res.status(200).json(success(data));
+  } catch (e) {
+    return res.status(500).json(error(e.message));
+  }
+};
+
 module.exports = {
   getDevices,
   createDevice,
   updateDevice,
   triggerActionDevice,
   getDataDevice,
+  getNewestDataDevice,
   fakeData,
 };

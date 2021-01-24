@@ -7,6 +7,7 @@ const {
   updateDevice,
   triggerActionDevice,
   getDataDevice,
+  getNewestDataDevice,
   fakeData,
 } = require('../controller/device.controller');
 
@@ -21,6 +22,8 @@ router.put('/devices/:id', passport.authenticate(AUTH_STRATEGY, { session: false
 router.post('/devices/:id/trigger', passport.authenticate(AUTH_STRATEGY, { session: false }), triggerActionDevice);
 
 router.get('/devices/:id/data', passport.authenticate(AUTH_STRATEGY, { session: false }), getDataDevice);
+
+router.get('/devices/:id/newest-data', passport.authenticate(AUTH_STRATEGY, { session: false }), getNewestDataDevice);
 
 router.post('/fake_data', fakeData);
 
