@@ -25,6 +25,6 @@ router.get('/devices/:id/data', passport.authenticate(AUTH_STRATEGY, { session: 
 
 router.get('/devices/:id/newest-data', passport.authenticate(AUTH_STRATEGY, { session: false }), getNewestDataDevice);
 
-router.post('/fake_data', fakeData);
+router.post('/devices/:id/fake_data', fakeData);
 
 module.exports = router;

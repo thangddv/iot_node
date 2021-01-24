@@ -207,7 +207,7 @@ const fakeData = async (req, res) => {
     return res.status(400).json(validation(errorsAfterValidation.mapped()));
   }
   try {
-    const device = await Device.findById('6001fc8d613d5f86ea9d4090');
+    const device = await Device.findById(req.params.id);
     const data = [];
     for (let i = 1; i <= 24; i += 1) {
       const examp = {
