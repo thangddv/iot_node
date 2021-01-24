@@ -1,0 +1,343 @@
+{
+	"info": {
+		"_postman_id": "d2b6c265-4815-4f6d-9268-95160bb52572",
+		"name": "AAAA",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"dongvietthang@gmail.com\",\n    \"password\": \"12345678\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{domain}}/api/register",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"api",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"dongthang1@gmail.com\",\n    \"password\": \"12345678\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{domain}}/api/login",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"api",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get user",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{domain}}/api/user",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"api",
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get devices",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{domain}}/api/devices",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"api",
+						"devices"
+					],
+					"query": [
+						{
+							"key": "type",
+							"value": "Board",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create device",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"mac\": \"1111111111111\",\n    \"deviceName\": \"Máy bơm 1\",\n    \"deviceId\": 1,\n    \"deviceType\": \"Device\",\n    \"status\": \"active\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{domain}}/api/devices",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"api",
+						"devices"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "fake_data",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"dongthang\",\n    \"password\": \"123456\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{domain}}/api/devices/:id/fake_data",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"api",
+						"devices",
+						":id",
+						"fake_data"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get data",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"dongthang\",\n    \"password\": \"123456\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{domain}}/api/devices/6001fc8d613d5f86ea9d4090/data",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"api",
+						"devices",
+						"6001fc8d613d5f86ea9d4090",
+						"data"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get newest data",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"dongthang\",\n    \"password\": \"123456\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{domain}}/api/devices/6001fc8d613d5f86ea9d4090/newest-data",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"api",
+						"devices",
+						"6001fc8d613d5f86ea9d4090",
+						"newest-data"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "trigger",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"dongthang\",\n    \"password\": \"123456\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{domain}}/api/devices/6001fc8d613d5f86ea9d4090/trigger",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"api",
+						"devices",
+						"6001fc8d613d5f86ea9d4090",
+						"trigger"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update device",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"mac\": \"222222222222\",\n    \"deviceName\": \"Board chính 1\",\n    \"deviceId\": \"1\",\n    \"status\": \"inactive\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{domain}}/api/devices/6001fc8d613d5f86ea9d4090",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"api",
+						"devices",
+						"6001fc8d613d5f86ea9d4090"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwMDFlODA5YmM3YTIzNjYxZTVjNDNmYyIsImlhdCI6MTYxMTQ5ODEwMCwiZXhwIjoxNjExNTg0NTAwfQ.mNT8v_tMdZSGNFiF7PSuiVWbVkfPNUnsiajjeZbay-g",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
