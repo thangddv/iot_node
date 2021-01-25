@@ -59,6 +59,22 @@ const createDevice = async (req, res) => {
       deviceType,
       status,
     });
+    //fake data to new device
+    const device1 = await Device.findById(newDevice.id);
+    const data = [];
+    for (let i = 1; i <= 24; i += 1) {
+      const examp = {
+        mac: device1.mac,
+        deviceId: device1.deviceId,
+        timestamp: new Date().getTime() + i * 60 * 60 * 1000,
+        data: {
+          H5: `${Math.floor(Math.random() * 30) + 50}`,
+          T5: `${Math.floor(Math.random() * 10) + 15}`,
+        },
+      };
+      data.push(examp);
+    }
+    await Data.insertMany(data);
     return res.status(200).json(success(newDevice));
   } catch (e) {
     return res.status(500).json(error(e.message));
@@ -138,11 +154,11 @@ const triggerActionDevice = async (req, res) => {
     if (device.status === DEVICE_STATUS.RUNNING) {
       await triggerDevice(device, 'off');
     }
-    if (device.status === DEVICE_STATUS.ACTIVE) {
+    else if (device.status === DEVICE_STATUS.ACTIVE) {
       await triggerDevice(device, 'on');
     }
 
-    return res.status(200).json(success(`Changed status device to ${device.status}`));
+    return res.status(200).json(success(device));
   } catch (e) {
     return res.status(500).json(error(e.message));
   }
@@ -163,7 +179,7 @@ const getNewestDataDevice = async (req, res) => {
       mac: device.mac,
       deviceId: device.deviceId,
       timestamp: { $gt: date.getTime() - 30000 },
-    }).sort({ timestamp: 'desc' });
+    }).sort({ timestamp: 'asc' });
     if (!data || data.length === 0) return res.status(422).json(error('Device is not having data now', res.statusCode));
     return res.status(200).json(
       success({

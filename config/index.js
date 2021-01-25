@@ -1,5 +1,5 @@
 module.exports = {
-  port: process.env.PORT || 3000,
+  port: process.env.PORT || 8000,
   db: {
     url:
       process.env.DATABASE_URL ||
@@ -16,7 +16,7 @@ module.exports = {
     expiry: '1d',
   },
   mqtt: {
-    host: '192.168.137.13',
+    host: '192.168.43.218',
     port: 1883,
   },
 };
