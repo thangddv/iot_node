@@ -59,7 +59,7 @@ const createDevice = async (req, res) => {
       deviceType,
       status,
     });
-    //fake data to new device
+    // fake data to new device
     const device1 = await Device.findById(newDevice.id);
     const data = [];
     for (let i = 1; i <= 24; i += 1) {
@@ -135,7 +135,13 @@ const getDataDevice = async (req, res) => {
     ]);
     if (!data || data.length === 0) return res.status(422).json(error('Device does not have data', res.statusCode));
 
-    return res.status(200).json(success({ device, result: data }));
+    return res.status(200).json(
+      success({
+        device,
+        // eslint-disable-next-line no-underscore-dangle
+        result: data.sort((a, b) => a._id - b._id),
+      })
+    );
   } catch (e) {
     return res.status(500).json(error(e.message));
   }
@@ -153,8 +159,7 @@ const triggerActionDevice = async (req, res) => {
 
     if (device.status === DEVICE_STATUS.RUNNING) {
       await triggerDevice(device, 'off');
-    }
-    else if (device.status === DEVICE_STATUS.ACTIVE) {
+    } else if (device.status === DEVICE_STATUS.ACTIVE) {
       await triggerDevice(device, 'on');
     }
 
@@ -178,9 +183,25 @@ const getNewestDataDevice = async (req, res) => {
     const data = await Data.find({
       mac: device.mac,
       deviceId: device.deviceId,
-      timestamp: { $gt: date.getTime() - 30000 },
+      timestamp: { $gt: date.getTime() - 10000, $lt: date.getTime() + 10000 },
     }).sort({ timestamp: 'asc' });
-    if (!data || data.length === 0) return res.status(422).json(error('Device is not having data now', res.statusCode));
+    // Fake
+    const data1 = await Data.find({
+      mac: device.mac,
+      deviceId: device.deviceId,
+      timestamp: { $gt: date.getTime() - 1000000000 },
+    }).sort({ timestamp: 'asc' });
+    // if (!data || data.length === 0) return res.status(422).json(error('Device is not having data now', res.statusCode));
+    if (!data || data.length === 0)
+      return res.status(200).json(
+        success({
+          deviceName: device.deviceName,
+          mac: device.mac,
+          deviceId: device.deviceId,
+          timestamp: data1[0].timestamp,
+          data: data1[0].data,
+        })
+      );
     return res.status(200).json(
       success({
         deviceName: device.deviceName,

@@ -13,7 +13,7 @@ module.exports = {
   },
   jwt: {
     secret: process.env.JWT_SECRET || 'jwt_secret',
-    expiry: '1d',
+    expiry: '10d',
   },
   mqtt: {
     host: '192.168.43.218',
